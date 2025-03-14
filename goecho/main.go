@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
@@ -14,16 +16,45 @@ func insertDbData(data WildFireEntry) {
 
 }
 
-func insertFireData() {
-
+func insertFireData(c echo.Context) error {
+	return c.String(200, "ng :(")
 }
 
-func getDbData(limit, offset int) {
-
+func getDbData(limit, offset int) ([]WildFireEntry, error) {
+	query := fmt.Sprintf("SELECT * FROM WildfireEntry LIMIT %d OFFSET %d;", limit, offset)
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var entries []WildFireEntry
+	for rows.Next() {
+		var entry WildFireEntry
+		entry, err := ScanEntry(entry, rows)
+		if err != nil {
+			return nil, err
+		}
+		entries = append(entries, entry)
+	}
+	return entries, nil
 }
 
-func getFireData() {
+func getFireData(c echo.Context) error {
+	limit, err := strconv.Atoi(c.QueryParam("limit"))
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Could not convert limit to int")
+	}
+	offset, err := strconv.Atoi(c.QueryParam("offset"))
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Could not convert offset to int")
+	}
 
+	_, err = getDbData(limit, offset)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.String(200, "ok :)")
 }
 
 func main() {
@@ -32,13 +63,16 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+	e.GET("/wildfires", getFireData)
+	e.POST("/wildfires/addentry", insertFireData)
 
 	// database setup
 	var err error
-	db, err = sql.Open("mysql", "root:exjobb@tcp(172.17.0.1:3306)/wildfire")
+	db, err = sql.Open("mysql", "root:exjobb@/wildfire")
 	if err != nil {
 		panic(err)
 	}
+	//db.Ping()
 
 	port := ":8080"
 	e.Logger.Fatal(e.Start(port))
