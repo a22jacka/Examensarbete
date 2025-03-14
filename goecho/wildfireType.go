@@ -1,0 +1,40 @@
+package main
+
+type WildFireEntry struct {
+	Id                string
+	X                 float32
+	Y                 float32
+	Objectid          int
+	Globalid          string
+	Fireoccureid      string
+	CN                string
+	Revdate           string
+	Firename          string
+	complexname       string
+	Fireyear          uint16
+	Uniquefireid      string
+	Sofirenum         int
+	Localfirenum      int
+	Securityid        int
+	Discoverydatetime string
+	Sizeclass         string
+	Totalacres        float32
+	Statcause         string
+	Comments          string
+	Datasource        int
+	Fireoutdatetime   string
+	Owneragency       string
+	Unitdowner        string
+	Protectionagency  string
+	Unitdprotect      string
+	Latdd83           float32
+	Longdd83          float32
+	Firetypecategory  string
+	Pointtype         string
+	Perimexists       string
+	Firerptqc         string
+	Dbsourceid        int
+	Dbsourcedate      string
+	Accuracy          int
+	Shape             string
+}
