@@ -24,7 +24,7 @@ func getDbData(limit, offset int) ([]WildFireEntry, error) {
 	// prepapre query and add the limit and offset if presenet
 	query := fmt.Sprintf("SELECT * FROM WildfireEntry;")
 	if limit > 0 && offset > 0 {
-		query = fmt.Sprintf("%s LIMIT %d OFFSET %d;",query, limit, offset)
+		query = fmt.Sprintf("%s LIMIT %d OFFSET %d;", query, limit, offset)
 	}
 
 	rows, err := db.Query(query)
@@ -85,7 +85,8 @@ func main() {
 
 	// database setup
 	var err error
-	db, err = sql.Open("mysql", "root:exjobb@/wildfire")
+	// add "tcp(172.17.0.1)" when running for docker, remove for local
+	db, err = sql.Open("mysql", "root:exjobb@tcp(172.17.0.1)/wildfire")
 	if err != nil {
 		panic(err)
 	}
