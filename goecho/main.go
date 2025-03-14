@@ -49,12 +49,14 @@ func getFireData(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Could not convert offset to int")
 	}
 
-	_, err = getDbData(limit, offset)
+	data, err := getDbData(limit, offset)
 	if err != nil {
 		panic(err)
 	}
 
-	return c.String(200, "ok :)")
+	// data -> json
+
+	return c.JSON(200, data)
 }
 
 func main() {
@@ -72,7 +74,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	//db.Ping()
 
 	port := ":8080"
 	e.Logger.Fatal(e.Start(port))
