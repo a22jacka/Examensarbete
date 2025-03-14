@@ -21,12 +21,18 @@ func insertFireData(c echo.Context) error {
 }
 
 func getDbData(limit, offset int) ([]WildFireEntry, error) {
-	query := fmt.Sprintf("SELECT * FROM WildfireEntry LIMIT %d OFFSET %d;", limit, offset)
+	// prepapre query and add the limit and offset if presenet
+	query := fmt.Sprintf("SELECT * FROM WildfireEntry;")
+	if limit > 0 && offset > 0 {
+		query = fmt.Sprintf("%s LIMIT %d OFFSET %d;",query, limit, offset)
+	}
+
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
+
 	var entries []WildFireEntry
 	for rows.Next() {
 		var entry WildFireEntry
@@ -40,13 +46,24 @@ func getDbData(limit, offset int) ([]WildFireEntry, error) {
 }
 
 func getFireData(c echo.Context) error {
-	limit, err := strconv.Atoi(c.QueryParam("limit"))
-	if err != nil {
-		return c.String(http.StatusBadRequest, "Could not convert limit to int")
+	var err error
+
+	// check that the parameters are present and valid numbers if present
+	plimit := c.QueryParam("limit")
+	limit := 0
+	if plimit != "" {
+		limit, err = strconv.Atoi(plimit)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "Could not convert limit to int")
+		}
 	}
-	offset, err := strconv.Atoi(c.QueryParam("offset"))
-	if err != nil {
-		return c.String(http.StatusBadRequest, "Could not convert offset to int")
+	poffset := c.QueryParam("offset")
+	offset := 0
+	if poffset != "" {
+		offset, err = strconv.Atoi(poffset)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "Could not convert offset to int")
+		}
 	}
 
 	data, err := getDbData(limit, offset)
@@ -54,9 +71,7 @@ func getFireData(c echo.Context) error {
 		panic(err)
 	}
 
-	// data -> json
-
-	return c.JSON(200, data)
+	return c.JSON(http.StatusOK, data)
 }
 
 func main() {
