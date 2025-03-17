@@ -24,7 +24,7 @@ func insertFireData(c echo.Context) error {
 	var entry WildFireEntry
 	var err error
 
-	if err = c.Bind(entry); err != nil {
+	if err = c.Bind(&entry); err != nil {
 		//return c.String(http.StatusBadRequest, "Invalid subission format")
 	}
 
