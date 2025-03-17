@@ -17,17 +17,18 @@ func insertDbData(data WildFireEntry) {
 }
 
 func insertFireData(c echo.Context) error {
-	return c.String(200, "ng :(")
+
+	return c.String(201, "POST Accepted")
 }
 
 func getDbData(limit, offset int) ([]WildFireEntry, error) {
 	// prepapre query and add the limit and offset if presenet
-	query := fmt.Sprintf("SELECT * FROM WildfireEntry;")
+	query := fmt.Sprintf("SELECT * FROM WildfireEntry")
 	if limit > 0 && offset > 0 {
 		query = fmt.Sprintf("%s LIMIT %d OFFSET %d;", query, limit, offset)
 	}
 
-	rows, err := db.Query(query)
+	rows, err := db.Query(fmt.Sprintf("%s;", query))
 	if err != nil {
 		return nil, err
 	}
@@ -85,8 +86,10 @@ func main() {
 
 	// database setup
 	var err error
-	// add "tcp(172.17.0.1)" when running for docker, remove for local
-	db, err = sql.Open("mysql", "root:exjobb@tcp(172.17.0.1)/wildfire")
+	// local: "root:exjobb@/wildfire"
+	// docker: "root:exjobb@tcp(172.17.0.1)/wildfire"
+	connectionString := "root:exjobb@/wildfire"
+	db, err = sql.Open("mysql", connectionString)
 	if err != nil {
 		panic(err)
 	}
