@@ -8,6 +8,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 var db *sql.DB
@@ -24,8 +25,9 @@ func insertFireData(c echo.Context) error {
 	var entry WildFireEntry
 	var err error
 
+	// binds the values from the request to the "entry" valuable
 	if err = c.Bind(&entry); err != nil {
-		//return c.String(http.StatusBadRequest, "Invalid subission format")
+		return c.String(http.StatusBadRequest, "1 or more fields are invalid")
 	}
 
 	var id int64
@@ -93,6 +95,7 @@ func getFireData(c echo.Context) error {
 func main() {
 	// echo setup
 	e := echo.New()
+	e.Use(middleware.CORS())
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})

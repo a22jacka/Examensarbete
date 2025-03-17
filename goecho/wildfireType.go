@@ -4,43 +4,45 @@ import (
 	"database/sql"
 )
 
+// stored as pointers so that context.Bind doesn't fail
+// sql.Null{Type} types exists, but can't interact with json
 type WildFireEntry struct {
-	Id                string          `json:"id"`
-	X                 sql.NullFloat64 `json:"x"`
-	Y                 sql.NullFloat64 `json:"y"`
-	Objectid          sql.NullInt32   `json:"objectid"`
-	Globalid          sql.NullString  `json:"globalid"`
-	Fireoccureid      sql.NullString  `json:"fireoccureid"`
-	Cn                sql.NullString  `json:"cn"`
-	Revdate           sql.NullString  `json:"revdate"`
-	Firename          sql.NullString  `json:"firename"`
-	Complexname       sql.NullString  `json:"complexname"`
-	Fireyear          sql.NullInt32   `json:"fireyear"`
-	Uniquefireid      sql.NullString  `json:"uniquefireid"`
-	Sofirenum         sql.NullInt32   `json:"sofirenum"`
-	Localfirenum      sql.NullInt32   `json:"localfirenum"`
-	Securityid        sql.NullInt32   `json:"securityid"`
-	Discoverydatetime sql.NullString  `json:"discoverydatetime"`
-	Sizeclass         sql.NullString  `json:"sizeclass"`
-	Totalacres        sql.NullFloat64 `json:"totalacres"`
-	Statcause         sql.NullString  `json:"statcause"`
-	Comments          sql.NullString  `json:"comments"`
-	Datasource        sql.NullInt32   `json:"datasource"`
-	Fireoutdatetime   sql.NullString  `json:"fireoutdatetime"`
-	Owneragency       sql.NullString  `json:"owneragency"`
-	Unitdowner        sql.NullString  `json:"unitdowner"`
-	Protectionagency  sql.NullString  `json:"protectionagency"`
-	Unitdprotect      sql.NullString  `json:"unitdprotect"`
-	Latdd83           sql.NullFloat64 `json:"latdd83"`
-	Longdd83          sql.NullFloat64 `json:"longdd83"`
-	Firetypecategory  sql.NullString  `json:"firetypecategory"`
-	Pointtype         sql.NullString  `json:"pointtype"`
-	Perimexists       sql.NullString  `json:"perimexists"`
-	Firerptqc         sql.NullString  `json:"firerptqc"`
-	Dbsourceid        sql.NullInt32   `json:"dbsourceid"`
-	Dbsourcedate      sql.NullString  `json:"dbsourcedate"`
-	Accuracy          sql.NullInt32   `json:"accuracy"`
-	Shape             sql.NullString  `json:"shape"`
+	Id                string   `json:"id"`
+	X                 *float64 `json:"x"`
+	Y                 *float64 `json:"y"`
+	Objectid          *int32   `json:"objectid"`
+	Globalid          *string  `json:"globalid"`
+	Fireoccureid      *string  `json:"fireoccureid"`
+	Cn                *string  `json:"cn"`
+	Revdate           *string  `json:"revdate"`
+	Firename          *string  `json:"firename"`
+	Complexname       *string  `json:"complexname"`
+	Fireyear          *int32   `json:"fireyear"`
+	Uniquefireid      *string  `json:"uniquefireid"`
+	Sofirenum         *int32   `json:"sofirenum"`
+	Localfirenum      *int32   `json:"localfirenum"`
+	Securityid        *int32   `json:"securityid"`
+	Discoverydatetime *string  `json:"discoverydatetime"`
+	Sizeclass         *string  `json:"sizeclass"`
+	Totalacres        *float64 `json:"totalacres"`
+	Statcause         *string  `json:"statcause"`
+	Comments          *string  `json:"comments"`
+	Datasource        *int32   `json:"datasource"`
+	Fireoutdatetime   *string  `json:"fireoutdatetime"`
+	Owneragency       *string  `json:"owneragency"`
+	Unitdowner        *string  `json:"unitdowner"`
+	Protectionagency  *string  `json:"protectionagency"`
+	Unitdprotect      *string  `json:"unitdprotect"`
+	Latdd83           *float64 `json:"latdd83"`
+	Longdd83          *float64 `json:"longdd83"`
+	Firetypecategory  *string  `json:"firetypecategory"`
+	Pointtype         *string  `json:"pointtype"`
+	Perimexists       *string  `json:"perimexists"`
+	Firerptqc         *string  `json:"firerptqc"`
+	Dbsourceid        *int32   `json:"dbsourceid"`
+	Dbsourcedate      *string  `json:"dbsourcedate"`
+	Accuracy          *int32   `json:"accuracy"`
+	Shape             *string  `json:"shape"`
 }
 
 func ScanEntry(entry WildFireEntry, rows *sql.Rows) (WildFireEntry, error) {
