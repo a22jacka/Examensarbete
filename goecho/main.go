@@ -12,13 +12,28 @@ import (
 
 var db *sql.DB
 
-func insertDbData(data WildFireEntry) {
-
+func insertDbData(data WildFireEntry) (int64, error) {
+	result, err := executeInsert(db, data)
+	if err != nil {
+		return 0, err
+	}
+	return result.LastInsertId()
 }
 
 func insertFireData(c echo.Context) error {
+	var entry WildFireEntry
+	var err error
 
-	return c.String(201, "POST Accepted")
+	if err = c.Bind(entry); err != nil {
+		//return c.String(http.StatusBadRequest, "Invalid subission format")
+	}
+
+	var id int64
+	if id, err = insertDbData(entry); err != nil {
+		panic(err)
+	}
+
+	return c.String(201, fmt.Sprintf("New Entry Added. ID: %d\n", id))
 }
 
 func getDbData(limit, offset int) ([]WildFireEntry, error) {
