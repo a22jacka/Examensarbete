@@ -106,7 +106,7 @@ func main() {
 	var err error
 	// local: "root:exjobb@/wildfire"
 	// docker: "root:exjobb@tcp(172.17.0.1)/wildfire"
-	connectionString := "root:exjobb@/wildfire"
+	connectionString := "root:exjobb@tcp(172.17.0.1)/wildfire"
 	db, err = sql.Open("mysql", connectionString)
 	if err != nil {
 		panic(err)
