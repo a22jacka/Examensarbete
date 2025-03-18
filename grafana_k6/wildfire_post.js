@@ -6,14 +6,21 @@ import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 import { scenario } from 'k6/execution';
 
+const vus = 10;
+const iterPerVu = 100;
+
 export const options = {
-    //vus: 1,
-    iterations: 1,
+    vus: vus,
+    iterations: vus * iterPerVu,
     //duration: '2m'
 };
 
 const file = await open("../USFS_FireData.csv");
 const parser = new csv.Parser(file, { asObjects: true });
+
+// the fields that should be switched to numbers. 
+// Just doing a loop doesn't work since not all fields that can be numbers should be numbers
+const convertToNumber = ["x", "y", "objectid", "fireyear", "sofirenum", "localfirenum", "securityid", "totalacres", "datasource", "latdd83", "longdd83", "dbsourceid", "accuracy"];
 
 export default async function () {
 
@@ -22,11 +29,25 @@ export default async function () {
         throw new Error("EOF");
     }
 
-    const id = "c3";
+    const id = uuidv4();
+    const data = { id: id }
 
-    console.log(JSON.stringify({ ID: id, ...value }));
+    // a zero-width space someho get's in from the file, so this is needed to remove that 
+    value.x = value["﻿x"];
+    delete value["﻿x"];
 
-    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify({ ID: id, value }), {
+    // convert number attributes to numbers instead of strings
+    for (const [key, val] of Object.entries(value)) {
+        if (convertToNumber.includes(key)) {
+            data[key] = parseFloat(val);
+        } else {
+            data[key] = val;
+        }
+    }
+
+    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify({ id: id, ...data }), {
         headers: { "Content-Type": "application/json" },
     });
+
+    console.log(response);
 }
