@@ -4,7 +4,6 @@ import http from 'k6/http';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
-import { scenario } from 'k6/execution';
 
 const vus = 10;
 const iterPerVu = 100;
@@ -29,6 +28,7 @@ export default async function () {
         throw new Error("EOF");
     }
 
+    // seperate data object since the numbers aren't converting correctly
     const id = uuidv4();
     const data = { id: id }
 
@@ -45,9 +45,12 @@ export default async function () {
         }
     }
 
+    const startTime = Date.now();
     const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify({ id: id, ...data }), {
         headers: { "Content-Type": "application/json" },
     });
+    const stopTime = Date.now();
+    const duration = stopTime - startTime;
 
-    console.log(response);
+    console.log(`${id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration}`);
 }
