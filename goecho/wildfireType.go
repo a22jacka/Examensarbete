@@ -6,6 +6,7 @@ import (
 
 // stored as pointers so that context.Bind doesn't fail
 // sql.Null{Type} types exists, but can't interact with json
+// Go also doesn't support null (nil) for regular types, they have null values instead ("" for string and 0 for int & float). Pointers can be null (nil)
 type WildFireEntry struct {
 	Id                string   `json:"id"`
 	X                 *float64 `json:"x"`
