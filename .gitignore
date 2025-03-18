@@ -1,3 +1,6 @@
 # small site only used to avoid testing post requests in the terminal 
 DONT-COMMIT-api-post-testing.html 
+# data failes --remove later on
+*.csv
+
 .env
