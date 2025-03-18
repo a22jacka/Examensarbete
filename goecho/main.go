@@ -32,10 +32,10 @@ func insertFireData(c echo.Context) error {
 
 	var id int64
 	if id, err = insertDbData(entry); err != nil {
-		panic(err)
+		return c.String(http.StatusServiceUnavailable, "Too many connections, try again later")
 	}
 
-	return c.String(201, fmt.Sprintf("New Entry Added. ID: %d\n", id))
+	return c.String(http.StatusCreated, fmt.Sprintf("New Entry Added. ID: %d\n", id))
 }
 
 func getDbData(limit, offset int) ([]WildFireEntry, error) {
