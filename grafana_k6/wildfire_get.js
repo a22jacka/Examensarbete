@@ -4,11 +4,13 @@ import http from 'k6/http';
 
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
+const vus = 10;
+const iterPerVu = 100;
 
 export const options = {
-    vus: 100,
-    //iterations: 1000,
-    duration: '2m'
+    vus: vus,
+    iterations: vus * iterPerVu,
+    //duration: '2m'
 };
 
 export default function () {
