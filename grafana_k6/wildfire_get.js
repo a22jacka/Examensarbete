@@ -13,6 +13,10 @@ export const options = {
     //duration: '2m'
 };
 
+export function setup() {
+    console.log(`testId,status,startTime,endTime,duration,duration`);
+}
+
 export default function () {
     const testId = uuidv4();
     const startTime = Date.now();
@@ -21,5 +25,5 @@ export default function () {
 
     const endTime = Date.now();
     const duration = endTime - startTime;
-    console.log(`${testId}, ${startTime}, ${endTime}, ${duration}, ${response.status}, ${response.timings.duration}`)
+    console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration}`)
 }
