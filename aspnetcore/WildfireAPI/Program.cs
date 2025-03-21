@@ -1,6 +1,4 @@
-using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
 using MySqlConnector;
 using WildfireAPI;
 
