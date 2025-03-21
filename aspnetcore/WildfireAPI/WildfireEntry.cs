@@ -51,26 +51,24 @@ public class WildfireEntry
         List<WildfireEntry> entries = [];
 
         // extra variables for null handling
-        int result;
-        ushort uresult;
-        double dresult;
         while (await reader.ReadAsync())
         {
             // I am not proud of this solution but it works and I wanna work on something else
+            // All the TryParse is for null handling, other is just fails with "Can't convert DBNull to other types" 
             var entry = new WildfireEntry()
             {
                 // never null so doesn't need extra stuff to handle null
                 Id = reader.GetString(0),
-                X = Double.TryParse(reader.GetValue(1).ToString(), out dresult) ? dresult : null,
+                X = Double.TryParse(reader.GetValue(1).ToString(), out double dresult) ? dresult : null,
                 Y = Double.TryParse(reader.GetValue(2).ToString(), out dresult) ? dresult : null,
-                Objectid = Int32.TryParse(reader.GetValue(3).ToString(), out result) ? result : null,
+                Objectid = Int32.TryParse(reader.GetValue(3).ToString(), out int result) ? result : null,
                 Globalid = reader.GetValue(4).ToString(),
                 Fireoccurid = reader.GetValue(5).ToString(),
                 Cn = reader.GetValue(6).ToString(),
                 Revdate = reader.GetValue(7).ToString(),
                 Firename = reader.GetValue(8).ToString(),
                 Complexname = reader.GetValue(9).ToString(),
-                Fireyear = UInt16.TryParse(reader.GetValue(10).ToString(), out uresult) ? uresult : null,
+                Fireyear = UInt16.TryParse(reader.GetValue(10).ToString(), out ushort uresult) ? uresult : null,
                 Uniquefireid = reader.GetValue(11).ToString(),
                 Sofirenum = Int32.TryParse(reader.GetValue(12).ToString(), out result) ? result : null,
                 Localfirenum = Int32.TryParse(reader.GetValue(13).ToString(), out result) ? result : null,
