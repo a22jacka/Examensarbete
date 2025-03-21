@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using MySqlConnector;
 using WildfireAPI;
 
@@ -31,8 +29,10 @@ app.MapGet("/wildfires", async (int? limit, int? offset) =>
 app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
 {
     using var reader = new StreamReader(requestBody, leaveOpen: false);
-    var bodyAsString = await reader.ReadToEndAsync();
-    Console.WriteLine(bodyAsString);
+    var jsonString = await reader.ReadToEndAsync();
+
+    WildfireEntry? entry = JsonSerializer.Deserialize<WildfireEntry>(jsonString);
+    Console.WriteLine($"id: {entry?.Id}; X: {entry?.X}, Y: {entry?.Y}");
 
     return "post\n";
 });

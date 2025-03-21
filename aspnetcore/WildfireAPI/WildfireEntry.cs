@@ -1,45 +1,82 @@
 using System.Globalization;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using MySqlConnector;
 
 namespace WildfireAPI;
 public class WildfireEntry
 {
+    [JsonPropertyName("id")]
     public required string Id { get; set; }
+    [JsonPropertyName("x")]
     public double? X { get; set; }
+    [JsonPropertyName("y")]
     public double? Y { get; set; }
+    [JsonPropertyName("objectid")]
     public int? Objectid { get; set; }
+    [JsonPropertyName("globalid")]
     public string? Globalid { get; set; }
+    [JsonPropertyName("fireoccurid")]
     public string? Fireoccurid { get; set; }
+    [JsonPropertyName("cn")]
     public string? Cn { get; set; }
+    [JsonPropertyName("revdate")]
     public string? Revdate { get; set; }
+    [JsonPropertyName("firename")]
     public string? Firename { get; set; }
+    [JsonPropertyName("complexname")]
     public string? Complexname { get; set; }
+    [JsonPropertyName("fireyear")]
     public ushort? Fireyear { get; set; }
+    [JsonPropertyName("uniquefireid")]
     public string? Uniquefireid { get; set; }
+    [JsonPropertyName("sofirenum")]
     public int? Sofirenum { get; set; }
+    [JsonPropertyName("localfirenum")]
     public int? Localfirenum { get; set; }
+    [JsonPropertyName("securityid")]
     public int? Securityid { get; set; }
+    [JsonPropertyName("discoverydatetime")]
     public string? Discoverydatetime { get; set; }
+    [JsonPropertyName("sizeclass")]
     public string? Sizeclass { get; set; }
+    [JsonPropertyName("totalacres")]
     public double? Totalacres { get; set; }
+    [JsonPropertyName("statcause")]
     public string? Statcause { get; set; }
+    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
+    [JsonPropertyName("datasource")]
     public int? Datasource { get; set; }
+    [JsonPropertyName("fireoutdatetime")]
     public string? Fireoutdatetime { get; set; }
+    [JsonPropertyName("owneragency")]
     public string? Owneragency { get; set; }
+    [JsonPropertyName("unitdowner")]
     public string? Unitdowner { get; set; }
+    [JsonPropertyName("protectionagency")]
     public string? Protectionagency { get; set; }
+    [JsonPropertyName("unitdprotect")]
     public string? Unitdprotect { get; set; }
+    [JsonPropertyName("latdd83")]
     public double? Latdd83 { get; set; }
+    [JsonPropertyName("longdd83")]
     public double? Longdd83 { get; set; }
+    [JsonPropertyName("firetypecaategory")]
     public string? Firetypecaategory { get; set; }
+    [JsonPropertyName("pointtype")]
     public string? Pointtype { get; set; }
+    [JsonPropertyName("perimiexists")]
     public string? Perimiexists { get; set; }
+    [JsonPropertyName("firerptqc")]
     public string? Firerptqc { get; set; }
+    [JsonPropertyName("dbsourceid")]
     public int? Dbsourceid { get; set; }
+    [JsonPropertyName("dbsourcedate")]
     public string? Dbsourcedate { get; set; }
+    [JsonPropertyName("accuracy")]
     public int? Accuracy { get; set; }
+    [JsonPropertyName("shape")]
     public string? Shape { get; set; }
 
     // to format headers from "COLUMNNAME" to "Columnname"
