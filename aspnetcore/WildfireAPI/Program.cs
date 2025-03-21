@@ -23,7 +23,7 @@ app.MapGet("/wildfires", async (int? limit, int? offset) =>
     using var command = new MySqlCommand(query + ";", connection);
 
     using var reader = await command.ExecuteReaderAsync();
-    return await WildfireEntry.ContructEntries(reader);
+    return await WildfireEntry.ContructEntriesFromReader(reader);
 });
 
 app.MapPost("/wildifres/addentry", async () =>

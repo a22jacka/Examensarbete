@@ -46,7 +46,7 @@ public class WildfireEntry
     private static string FormatColumnHeaderName(string str)
         => new String(Char.ToUpper(str[0]) + str[1..str.Length].ToLower());
 
-    public static async Task<List<WildfireEntry>> ContructEntries(MySqlDataReader reader)
+    public static async Task<List<WildfireEntry>> ContructEntriesFromReader(MySqlDataReader reader)
     {
         List<WildfireEntry> entries = [];
 
