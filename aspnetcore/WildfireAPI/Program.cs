@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using WildfireAPI;
 
@@ -26,9 +28,13 @@ app.MapGet("/wildfires", async (int? limit, int? offset) =>
     return await WildfireEntry.ContructEntriesFromReader(reader);
 });
 
-app.MapPost("/wildifres/addentry", async () =>
+app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
 {
-    return "post";
+    using var reader = new StreamReader(requestBody, leaveOpen: false);
+    var bodyAsString = await reader.ReadToEndAsync();
+    Console.WriteLine(bodyAsString);
+
+    return "post\n";
 });
 
 app.Run();
