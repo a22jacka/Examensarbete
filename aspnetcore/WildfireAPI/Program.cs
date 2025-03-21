@@ -1,10 +1,13 @@
+using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http.HttpResults;
 using MySqlConnector;
 using WildfireAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string? MYSQL_CONNECTION_STRING = builder.Configuration.GetConnectionString("Custom");
+
 builder.Services.AddMySqlDataSource(MYSQL_CONNECTION_STRING!);
 
 var app = builder.Build();
@@ -23,7 +26,7 @@ app.MapGet("/wildfires", async (int? limit, int? offset) =>
     using var command = new MySqlCommand(query + ";", connection);
 
     using var reader = await command.ExecuteReaderAsync();
-    return await WildfireEntry.ContructEntriesFromReader(reader);
+    return Results.Ok(WildfireEntry.ContructEntriesFromReader(reader));
 });
 
 app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
@@ -32,9 +35,12 @@ app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
     var jsonString = await reader.ReadToEndAsync();
 
     WildfireEntry? entry = JsonSerializer.Deserialize<WildfireEntry>(jsonString);
-    Console.WriteLine($"id: {entry?.Id}; X: {entry?.X}, Y: {entry?.Y}");
-
-    return "post\n";
+    if (entry is null)
+    {
+        return Results.BadRequest("Missing or invalid field");
+    }
+    await entry.InsertWildfireEntry(MYSQL_CONNECTION_STRING);
+    return Results.Created();
 });
 
 app.Run();

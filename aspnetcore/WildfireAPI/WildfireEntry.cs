@@ -1,5 +1,4 @@
-using System.Globalization;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using MySqlConnector;
 
@@ -62,8 +61,8 @@ public class WildfireEntry
     public double? Latdd83 { get; set; }
     [JsonPropertyName("longdd83")]
     public double? Longdd83 { get; set; }
-    [JsonPropertyName("firetypecaategory")]
-    public string? Firetypecaategory { get; set; }
+    [JsonPropertyName("firetypecategory")]
+    public string? Firetypecategory { get; set; }
     [JsonPropertyName("pointtype")]
     public string? Pointtype { get; set; }
     [JsonPropertyName("perimiexists")]
@@ -123,7 +122,7 @@ public class WildfireEntry
                 Unitdprotect = reader.GetValue(25).ToString(),
                 Latdd83 = Double.TryParse(reader.GetValue(26).ToString(), out dresult) ? dresult : null,
                 Longdd83 = Double.TryParse(reader.GetValue(27).ToString(), out dresult) ? dresult : null,
-                Firetypecaategory = reader.GetValue(28).ToString(),
+                Firetypecategory = reader.GetValue(28).ToString(),
                 Pointtype = reader.GetValue(29).ToString(),
                 Perimiexists = reader.GetValue(30).ToString(),
                 Firerptqc = reader.GetValue(31).ToString(),
@@ -134,7 +133,57 @@ public class WildfireEntry
             };
             entries.Add(entry);
         }
-
         return entries;
+    }
+
+    public async Task InsertWildfireEntry(string connectionString)
+    {
+        using var connection = new MySqlConnection(connectionString);
+        using var command = connection.CreateCommand();
+        command.CommandText = @"INSERT INTO WildfireEntry
+            (Id, X, Y, Objectid, Globalid, Fireoccurid, Cn, Revdate, Firename, Complexname, Fireyear, Uniquefireid, Sofirenum, Localfirenum, Securityid, Discoverydatetime, Sizeclass, Totalacres, Statcause, Comments, Datasource, Fireoutdatetime, Owneragency, Unitdowner, Protectionagency, Unitdprotect, Latdd83, Longdd83, Firetypecategory, Pointtype, Perimiexists, Firerptqc, Dbsourceid, Dbsourcedate, Accuracy, Shape) VALUES
+            (@Id, @X, @Y, @Objectid, @Globalid, @Fireoccurid, @Cn, @Revdate, @Firename, @Complexname, @Fireyear, @Uniquefireid, @Sofirenum, @Localfirenum, @Securityid, @Discoverydatetime, @Sizeclass, @Totalacres, @Statcause, @Comments, @Datasource, @Fireoutdatetime, @Owneragency, @Unitdowner, @Protectionagency, @Unitdprotect, @Latdd83, @Longdd83, @Firetypecategory, @Pointtype, @Perimiexists, @Firerptqc, @Dbsourceid, @Dbsourcedate, @Accuracy, @Shape)";
+
+        // likely a nicer way to do this 
+        command.Parameters.AddWithValue("@Id", Id);
+        command.Parameters.AddWithValue("@X", X);
+        command.Parameters.AddWithValue("@Y", Y);
+        command.Parameters.AddWithValue("@Objectid", Objectid);
+        command.Parameters.AddWithValue("@Globalid", Globalid);
+        command.Parameters.AddWithValue("@Fireoccurid", Fireoccurid);
+        command.Parameters.AddWithValue("@Cn", Cn);
+        command.Parameters.AddWithValue("@Revdate", Revdate);
+        command.Parameters.AddWithValue("@Firename", Firename);
+        command.Parameters.AddWithValue("@Complexname", Complexname);
+        command.Parameters.AddWithValue("@Fireyear", Fireyear);
+        command.Parameters.AddWithValue("@Uniquefireid", Uniquefireid);
+        command.Parameters.AddWithValue("@Sofirenum", Sofirenum);
+        command.Parameters.AddWithValue("@Localfirenum", Localfirenum);
+        command.Parameters.AddWithValue("@Securityid", Securityid);
+        command.Parameters.AddWithValue("@Discoverydatetime", Discoverydatetime);
+        command.Parameters.AddWithValue("@Sizeclass", Sizeclass);
+        command.Parameters.AddWithValue("@Totalacres", Totalacres);
+        command.Parameters.AddWithValue("@Statcause", Statcause);
+        command.Parameters.AddWithValue("@Comments", Comments);
+        command.Parameters.AddWithValue("@Datasource", Datasource);
+        command.Parameters.AddWithValue("@Fireoutdatetime", Fireoutdatetime);
+        command.Parameters.AddWithValue("@Owneragency", Owneragency);
+        command.Parameters.AddWithValue("@Unitdowner", Unitdowner);
+        command.Parameters.AddWithValue("@Protectionagency", Protectionagency);
+        command.Parameters.AddWithValue("@Unitdprotect", Unitdprotect);
+        command.Parameters.AddWithValue("@Latdd83", Latdd83);
+        command.Parameters.AddWithValue("@Longdd83", Longdd83);
+        command.Parameters.AddWithValue("@Firetypecategory", Firetypecategory);
+        command.Parameters.AddWithValue("@Pointtype", Pointtype);
+        command.Parameters.AddWithValue("@Perimiexists", Perimiexists);
+        command.Parameters.AddWithValue("@Firerptqc", Firerptqc);
+        command.Parameters.AddWithValue("@Dbsourceid", Dbsourceid);
+        command.Parameters.AddWithValue("@Dbsourcedate", Dbsourcedate);
+        command.Parameters.AddWithValue("@Accuracy", Accuracy);
+        command.Parameters.AddWithValue("@Shape", Shape);
+
+        await connection.OpenAsync();
+        await command.ExecuteNonQueryAsync();
+        await connection.CloseAsync();
     }
 }
