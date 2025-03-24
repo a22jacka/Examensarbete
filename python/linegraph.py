@@ -1,6 +1,3 @@
-import scipy.stats as st
-import numpy as np
-import statsmodels.stats.multicomp as multi
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
