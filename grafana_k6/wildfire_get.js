@@ -2,11 +2,10 @@
 
 import http from 'k6/http';
 
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const vus = 1;
-const iterPerVu = 1;
-let limit, offset;
+const vus = 10;
+const iterPerVu = 100;
 
 export const options = {
     vus: vus,
@@ -22,10 +21,14 @@ export default function () {
     const testId = uuidv4();
     const startTime = Date.now();
 
-    const response = http.get("http://localhost:8080/wildfires");
+    // based on how much data is supposed to be recieved, 1 entry returned = ~900B
+    const limit = 12;
+    const dbEntries = 1000;
+    const offset = randomIntBetween(1, dbEntries - limit);
+
+    const response = http.get(`http://localhost:8080/wildfires?limit=${limit}&offset=${offset}`);
 
     const endTime = Date.now();
     const duration = endTime - startTime;
     console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration},${vus},${limit},${offset}`);
-    console.log(response);
 }
