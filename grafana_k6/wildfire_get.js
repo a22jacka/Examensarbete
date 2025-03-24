@@ -4,8 +4,9 @@ import http from 'k6/http';
 
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const vus = 10;
-const iterPerVu = 100;
+const vus = 1;
+const iterPerVu = 1;
+let limit, offset;
 
 export const options = {
     vus: vus,
@@ -14,7 +15,7 @@ export const options = {
 };
 
 export function setup() {
-    console.log(`testId,status,startTime,endTime,duration,duration`);
+    console.log(`testId,status,startTime,endTime,duration,duration,vus,limit,offset`);
 }
 
 export default function () {
@@ -25,5 +26,6 @@ export default function () {
 
     const endTime = Date.now();
     const duration = endTime - startTime;
-    console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration}`)
+    console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration},${vus},${limit},${offset}`);
+    console.log(response);
 }
