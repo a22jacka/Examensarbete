@@ -14,7 +14,7 @@ export const options = {
 };
 
 export function setup() {
-    console.log(`testId,status,startTime,endTime,duration,duration,vus,limit,offset`);
+    console.log(`testId,status,startTime,endTime,durationJS,durationK6,vus,limit,offset`);
 }
 
 export default function () {

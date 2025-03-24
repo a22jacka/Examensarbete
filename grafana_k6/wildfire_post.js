@@ -22,7 +22,7 @@ const parser = new csv.Parser(file, { asObjects: true });
 const convertToNumber = ["x", "y", "objectid", "fireyear", "sofirenum", "localfirenum", "securityid", "totalacres", "datasource", "latdd83", "longdd83", "dbsourceid", "accuracy"];
 
 export function setup() {
-    console.log(`id,status,startTime,stopTime,duration,duration,vus`);
+    console.log(`id,status,startTime,stopTime,durationJS,durationK6,vus`);
 }
 
 export default async function () {
