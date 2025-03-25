@@ -1,3 +1,5 @@
+import scipy.stats as st
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
@@ -15,21 +17,31 @@ df = pd.DataFrame({
     "go": str_to_float(godf["durationJS"]),   
 })
 
-# 100px per inch
-plt.figure(figsize=(18, 10))
+def calc_ci(data, confidence = 0.95):
+    a = 1.0 * np.array(data)
+    n = len(a)
+    m, se = np.mean(a), st.sem(a)
+    h = se * st.t.ppf((confidence + 1) / 2., n-1)
+    return -h, +h
+
+cis = pd.DataFrame({
+    "cs": calc_ci(df["cs"]),
+    "go": calc_ci(df["go"]),
+})
+
+plt.figure(figsize=(18,10))
 plt.bar(
     x=range(len(df.columns)),
     height=df.mean(),
-    color=[colors["cs"], colors["go"]],
     edgecolor="black",
+    color=[colors["cs"], colors["go"]],
     width=0.6,
-    yerr=df.sem(),
+    yerr=cis.iloc[1],
     capsize=7,
-    alpha=0.5,
     bottom=7
 )
 plt.xticks(range(len(df.columns)), df.columns)
-plt.ylabel('Response times (ms)')
-plt.title('Comparison for both APIs')
-plt.savefig("segraph.png")
+plt.ylabel("Response times (ms)")
+plt.title("The confidence intervals for the APIs")
+#plt.savefig("cigraph.png")
 plt.show()
