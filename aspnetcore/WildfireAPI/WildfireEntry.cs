@@ -78,10 +78,6 @@ public class WildfireEntry
     [JsonPropertyName("shape")]
     public string? Shape { get; set; }
 
-    // to format headers from "COLUMNNAME" to "Columnname"
-    private static string FormatColumnHeaderName(string str)
-        => new String(Char.ToUpper(str[0]) + str[1..str.Length].ToLower());
-
     public static async Task<List<WildfireEntry>> ContructEntriesFromReader(MySqlDataReader reader)
     {
         List<WildfireEntry> entries = [];
