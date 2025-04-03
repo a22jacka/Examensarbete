@@ -19,16 +19,16 @@ export function setup() {
 
 export default function () {
     const testId = uuidv4();
-    const startTime = Date.now();
 
     // based on how much data is supposed to be recieved, 1 entry returned = ~900B
     const limit = 12;
     const dbEntries = 1000;
     const offset = randomIntBetween(1, dbEntries - limit);
 
+    const startTime = Date.now();
     const response = http.get(`http://localhost:8080/wildfires?limit=${limit}&offset=${offset}`);
-
     const endTime = Date.now();
+
     const duration = endTime - startTime;
     console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration},${vus},${limit},${offset}`);
 }
