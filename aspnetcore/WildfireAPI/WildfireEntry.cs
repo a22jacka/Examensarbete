@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using MySqlConnector;
@@ -179,7 +180,17 @@ public class WildfireEntry
         command.Parameters.AddWithValue("@Shape", Shape);
 
         await connection.OpenAsync();
-        await command.ExecuteNonQueryAsync();
-        await connection.CloseAsync();
+        try
+        {
+            await command.ExecuteNonQueryAsync();
+        }
+        catch (DbException)
+        {
+            throw new Exception();
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
     }
 }
