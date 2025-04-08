@@ -1,12 +1,13 @@
 // run with: k6 run wildfire_post.js --console-output=filename.csv
 
+import { sleep } from 'k6';
 import http from 'k6/http';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 
-const vus = 10;
-const iterPerVu = 100;
+const vus = 100;
+const iterPerVu = 1000;
 
 export const options = {
     vus: vus,
@@ -57,4 +58,6 @@ export default async function () {
     const duration = stopTime - startTime;
 
     console.log(`${id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
+
+    //sleep(1);
 }

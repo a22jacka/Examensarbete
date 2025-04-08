@@ -4,7 +4,14 @@ using WildfireAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string? MYSQL_CONNECTION_STRING = builder.Configuration.GetConnectionString("Custom");
+string? MYSQL_CONNECTION_STRING = builder.Configuration.GetConnectionString("Docker");
+if (MYSQL_CONNECTION_STRING is null)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.Write("warning: ");
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.Write("No connection string found\n");
+}
 
 builder.Services.AddMySqlDataSource(MYSQL_CONNECTION_STRING!);
 

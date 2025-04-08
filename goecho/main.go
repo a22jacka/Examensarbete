@@ -107,8 +107,9 @@ func main() {
 	var err error
 	// local: "root:exjobb@/wildfire"
 	// docker: "root:exjobb@tcp(172.17.0.1)/wildfire"
-	connectionString := "root:exjobb@/wildfire"
-	db, err = sql.Open("mysql", connectionString)
+	localString := "root:exjobb@/wildfire"
+	dockerString := "root:exjobb@tcp(172.17.0.1)/wildfire"
+	db, err = sql.Open("mysql", dockerString)
 	if err != nil {
 		panic(err)
 	}
@@ -117,6 +118,10 @@ func main() {
 	db.SetMaxIdleConns(10000)
 	db.SetConnMaxLifetime(time.Minute * 4)
 	db.SetConnMaxIdleTime(time.Minute)
+
+	// avoids unused variable compiler error
+	_ = localString
+	_ = dockerString
 
 	port := ":8080"
 	e.Logger.Fatal(e.Start(port))
