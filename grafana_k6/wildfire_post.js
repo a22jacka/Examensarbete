@@ -42,8 +42,12 @@ export default async function () {
     delete value["﻿x"];
 
     // convert number attributes to numbers instead of strings
-    for (const [key, val] of Object.entries(convertToNumber)) {
-        data[key] = parseFloat(val);
+    for (const [key, val] of Object.entries(value)) {
+        if (convertToNumber.includes(key)) {
+            data[key] = parseFloat(val);
+        } else {
+            data[key] = val;
+        }
     }
 
     const startTime = Date.now();
