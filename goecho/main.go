@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
@@ -106,11 +107,16 @@ func main() {
 	var err error
 	// local: "root:exjobb@/wildfire"
 	// docker: "root:exjobb@tcp(172.17.0.1)/wildfire"
-	connectionString := "root:exjobb@tcp(172.17.0.1)/wildfire"
+	connectionString := "root:exjobb@/wildfire"
 	db, err = sql.Open("mysql", connectionString)
 	if err != nil {
 		panic(err)
 	}
+
+	db.SetMaxOpenConns(5000)
+	db.SetMaxIdleConns(10000)
+	db.SetConnMaxLifetime(time.Minute * 4)
+	db.SetConnMaxIdleTime(time.Minute)
 
 	port := ":8080"
 	e.Logger.Fatal(e.Start(port))
