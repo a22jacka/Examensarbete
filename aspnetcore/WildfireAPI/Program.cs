@@ -43,8 +43,16 @@ app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
     {
         return Results.BadRequest("Missing or invalid field");
     }
-    await entry.InsertWildfireEntry(MYSQL_CONNECTION_STRING);
-    return Results.Created();
+    try
+    {
+        await entry.InsertWildfireEntry(MYSQL_CONNECTION_STRING);
+        return Results.Created();
+
+    }
+    catch (Exception)
+    {
+        return Results.InternalServerError("Too many connections");
+    }
 });
 
 app.Run();
