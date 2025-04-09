@@ -5,6 +5,7 @@ import http from 'k6/http';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
+import { vu } from 'k6/execution';
 
 const vus = 100;
 const iterPerVu = 1000;
@@ -27,10 +28,12 @@ export function setup() {
 }
 
 export default async function () {
-
-    const { done, value } = await parser.next();
-    if (done) {
-        throw new Error("EOF");
+    let value, done;
+    for (let i = 0; i < vu.idInTest; i++) {
+        ({ done, value } = await parser.next());
+        if (done) {
+            throw new Error("EOF");
+        }
     }
 
     // seperate data object since the numbers aren't converting correctly
