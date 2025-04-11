@@ -28,9 +28,8 @@ func insertFireData(c echo.Context) error {
 
 	// binds the values from the request to the "entry" valuable
 	if err = c.Bind(&entry); err != nil {
-		//return c.String(http.StatusBadRequest, "1 or more fields are invalid")
 		fmt.Println(err.Error())
-		return c.String(http.StatusBadRequest, err.Error())
+		return c.String(http.StatusBadRequest, "1 or more fields are invalid")
 	}
 
 	var id int64
