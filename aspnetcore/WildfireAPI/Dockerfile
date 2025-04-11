@@ -1,4 +1,4 @@
-# docker build -f "Dockerfile" -t cs-wildfire:latest ../
+# aspnetcore/WildfireAPI$ docker build -f "Dockerfile" -t name:latest ../
 # docker run --name cs_api -p 8080:8080 cs-wildfire:latest
 
 ARG DOTNET_VERSION=9.0

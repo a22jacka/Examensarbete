@@ -8,7 +8,7 @@ import csv from 'k6/experimental/csv';
 import { vu } from 'k6/execution';
 
 const vus = 100;
-const iterPerVu = 1000;
+const iterPerVu = 100;
 
 export const options = {
     vus: vus,
@@ -28,12 +28,9 @@ export function setup() {
 }
 
 export default async function () {
-    let value, done;
-    for (let i = 0; i < vu.idInTest; i++) {
-        ({ done, value } = await parser.next());
-        if (done) {
-            throw new Error("EOF");
-        }
+    const { done, value } = await parser.next();
+    if (done) {
+        throw new Error("EOF");
     }
 
     // seperate data object since the numbers aren't converting correctly
