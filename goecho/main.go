@@ -28,11 +28,14 @@ func insertFireData(c echo.Context) error {
 
 	// binds the values from the request to the "entry" valuable
 	if err = c.Bind(&entry); err != nil {
-		return c.String(http.StatusBadRequest, "1 or more fields are invalid")
+		//return c.String(http.StatusBadRequest, "1 or more fields are invalid")
+		fmt.Println(err.Error())
+		return c.String(http.StatusBadRequest, err.Error())
 	}
 
 	var id int64
 	if id, err = insertDbData(entry); err != nil {
+		fmt.Println(err.Error())
 		return c.String(http.StatusServiceUnavailable, "Too many connections, try again later")
 	}
 
@@ -107,7 +110,7 @@ func main() {
 	var err error
 	localString := "root:exjobb@/wildfire"
 	dockerString := "root:exjobb@tcp(172.17.0.1)/wildfire"
-	db, err = sql.Open("mysql", dockerString)
+	db, err = sql.Open("mysql", localString)
 	if err != nil {
 		panic(err)
 	}

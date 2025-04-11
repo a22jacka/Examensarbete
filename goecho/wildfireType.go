@@ -21,7 +21,7 @@ type WildFireEntry struct {
 	Fireyear          *int32   `json:"fireyear"`
 	Uniquefireid      *string  `json:"uniquefireid"`
 	Sofirenum         *int32   `json:"sofirenum"`
-	Localfirenum      *int32   `json:"localfirenum"`
+	Localfirenum      *int64   `json:"localfirenum"`
 	Securityid        *int32   `json:"securityid"`
 	Discoverydatetime *string  `json:"discoverydatetime"`
 	Sizeclass         *string  `json:"sizeclass"`
