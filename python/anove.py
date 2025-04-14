@@ -6,7 +6,13 @@ import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-files = glob.glob("../grafana_k6/*get_t.csv")
+PATH_TO_SRC = "../results/csv/"
+PATH_TO_SAVE = "../results/graphs/"
+
+vus = 100
+data = "1MB"
+
+files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"go": "red", "cs": "blue"}
 
@@ -19,4 +25,5 @@ df = pd.DataFrame({
 })
 
 stats, p_value = st.f_oneway(*[df["cs"], df["go"]])
+print(f"Calculation for {vus} VUs getting {data} each")
 print(f'Anova stats: {str(stats)}, p_value: {str(p_value)}, Difference: {p_value < stats}')

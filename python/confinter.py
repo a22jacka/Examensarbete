@@ -5,7 +5,13 @@ import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-files = glob.glob("../grafana_k6/*get_t.csv")
+PATH_TO_SRC = "../results/csv/"
+PATH_TO_SAVE = "../results/graphs/"
+
+vus = 100
+data = "1MB"
+
+files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"go": "red", "cs": "blue"}
 
@@ -40,7 +46,7 @@ plt.bar(
     capsize=7,
     bottom=7
 )
-plt.xticks(range(len(df.columns)), df.columns)
+plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel("Response times (ms)")
 plt.title("The confidence intervals for the APIs")
 #plt.savefig("cigraph.png")
