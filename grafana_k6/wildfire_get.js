@@ -5,8 +5,8 @@ import { sleep } from 'k6';
 
 import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const vus = 100;
-const iterPerVu = 20;
+const vus = 10;
+const iterPerVu = 2000 / vus;
 
 export const options = {
     vus: vus,
@@ -23,6 +23,10 @@ export default function () {
     const testId = uuidv4();
 
     // based on how much data is supposed to be recieved, 1 entry returned = ~900B
+    // limits used:
+    //        13 =   10kB
+    //        127 =  100kB
+    //        1300 = 1MB
     const limit = 13;
     // number of entries in database, set manually
     const dbEntries = 10000;
