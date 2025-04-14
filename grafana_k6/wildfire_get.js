@@ -1,15 +1,17 @@
 // run with: k6 run wildfire_get.js --console-output=filename.csv
 
 import http from 'k6/http';
+import { sleep } from 'k6';
 
 import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
-const vus = 10;
-const iterPerVu = 100;
+const vus = 100;
+const iterPerVu = 20;
 
 export const options = {
     vus: vus,
-    iterations: vus * iterPerVu,
+    iterations: iterPerVu * vus,
+    //executor: 'per-vu-iterations',
     //duration: '2m'
 };
 
@@ -21,8 +23,9 @@ export default function () {
     const testId = uuidv4();
 
     // based on how much data is supposed to be recieved, 1 entry returned = ~900B
-    const limit = 12;
-    const dbEntries = 1000;
+    const limit = 13;
+    // number of entries in database, set manually
+    const dbEntries = 10000;
     const offset = randomIntBetween(1, dbEntries - limit);
 
     const startTime = Date.now();
@@ -31,4 +34,6 @@ export default function () {
 
     const duration = endTime - startTime;
     console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration},${vus},${limit},${offset}`);
+
+    sleep(0.5)
 }
