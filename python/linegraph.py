@@ -3,26 +3,31 @@ import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-files = glob.glob("../grafana_k6/p100-1000.csv")
+PATH_TO_SRC = "../results/csv/"
+PATH_TO_SAVE = "../results/graphs/"
+
+vus = 10
+data = "10kb"
+
+files = glob.glob(f"{PATH_TO_SRC}*{vus}vu-{data}-full.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
-colors = {"go": "red", "cs": "blue"}
+colors = {"echo": "red", "asp": "blue"}
 
 # 100px per inch
 plt.figure(figsize=(18, 10))
 ln = 0
 for file in files:
-    df = pd.read_csv(file, sep=",", names=headers, low_memory=False, skiprows=[0])
+    df = pd.read_csv(file, sep=",", names=headers, low_memory=False, skiprows=vus+1)
     x = range(0, len(df["durationJS"]))
     y = str_to_float(df["durationJS"])
-    filename = file.split("/")[2]
-    colour = colors[filename[:2]] if filename[:2] == "cs" or filename[:2] == "go" else "green"
-    plt.plot(x, y, label=filename, color=colour)
+    filename = file.split("/")[3].split("-")[0]
+    plt.plot(x, y, label=filename, color=colors[filename])
     ln = len(df["durationJS"])
 plt.legend()
 plt.xlabel("Iterations")
 plt.ylabel("Response time (ms)")
 plt.title("Load times for the APIs")
-plt.xticks(range(0, ln+1, round(ln/10)))
-plt.yticks(range(0, 501, 10))
-#plt.savefig("linegraph-s2-10-100.png")
+plt.xticks(range(0, ln+1, 100))
+plt.yticks(range(0, 101, 10))
+plt.savefig(f"{PATH_TO_SAVE}{vus}vu-{data}.png")
 plt.show()
