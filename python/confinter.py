@@ -44,10 +44,10 @@ plt.bar(
     width=0.6,
     yerr=cis.iloc[1],
     capsize=7,
-    bottom=7
+    bottom=0
 )
 plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel("Response times (ms)")
 plt.title("The confidence intervals for the APIs")
-#plt.savefig("cigraph.png")
-plt.show()
+plt.savefig(f"{PATH_TO_SAVE}confinter-{vus}vu-{data}.png")
+#plt.show()

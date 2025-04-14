@@ -32,10 +32,10 @@ plt.bar(
     yerr=df.sem(),
     capsize=7,
     alpha=0.5,
-    bottom=7
+    bottom=0
 )
 plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel('Response times (ms)')
 plt.title('Comparison for both APIs')
-plt.savefig("segraph.png")
+plt.savefig(f"{PATH_TO_SAVE}stderr-{vus}vu-{data}.png")
 plt.show()

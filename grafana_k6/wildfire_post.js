@@ -59,5 +59,5 @@ export default async function () {
 
     console.log(`${id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
 
-    //sleep(1);
+    sleep(0.5);
 }
