@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-PATH_TO_SRC = "../results/csv/"
-PATH_TO_SAVE = "../results/graphs/"
+PATH_TO_SRC = "../pilot-study-results/csv/"
+PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
 vus = 100
 data = "1MB"
@@ -22,7 +22,7 @@ df = pd.DataFrame({
 })
 
 # 100px per inch
-plt.figure(figsize=(18, 10))
+plt.figure(figsize=(12, 5))
 plt.bar(
     x=range(len(df.columns)),
     height=df.mean(),

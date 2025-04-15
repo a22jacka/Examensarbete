@@ -1,13 +1,10 @@
 import scipy.stats as st
-import numpy as np
-import statsmodels.stats.multicomp as multi
 import pandas as pd
-import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-PATH_TO_SRC = "../results/csv/"
-PATH_TO_SAVE = "../results/graphs/"
+PATH_TO_SRC = "../pilot-study-results/csv/"
+PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
 vus = 100
 data = "1MB"
