@@ -11,7 +11,10 @@ PATH_TO_SAVE = "../pilot-study-results/graphs/"
 vus = 100
 data = "1MB"
 
-files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
+#post-files
+files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
+#get-files
+#files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"go": "red", "cs": "blue"}
 
@@ -50,5 +53,8 @@ plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel("Response times (ms)")
 plt.title("The confidence intervals for the APIs")
 plt.tight_layout()
-plt.savefig(f"{PATH_TO_SAVE}confinter-{vus}vu-{data}.png")
-#plt.show()
+#post
+plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu.png")
+#get
+#plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu-{data}.png")
+plt.show()

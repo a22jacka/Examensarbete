@@ -9,7 +9,10 @@ PATH_TO_SAVE = "../pilot-study-results/graphs/"
 vus = 100
 data = "1MB"
 
-files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
+#post-files
+files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
+#get-files
+#files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"go": "red", "cs": "blue"}
 
