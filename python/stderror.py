@@ -6,7 +6,7 @@ from misc import str_to_float
 PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
-vus = 10
+vus = 100
 data = "1MB"
 
 #post-files
