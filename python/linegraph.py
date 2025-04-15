@@ -6,8 +6,8 @@ from misc import str_to_float
 PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
-vus = 50
-data = "1MB"
+vus = 100
+data = "10kB"
 
 files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
@@ -28,7 +28,7 @@ plt.xlabel("Iterations")
 plt.ylabel("Response time (ms)")
 plt.title("Load times for the APIs")
 plt.xticks(range(0, ln+1, 100))
-plt.yticks(range(0, 1201, 100))
+plt.yticks(range(0, 341, 20))
 plt.tight_layout()
 plt.savefig(f"{PATH_TO_SAVE}get-line-{vus}vu-{data}.png")
 plt.show()

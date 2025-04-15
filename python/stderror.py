@@ -6,8 +6,8 @@ from misc import str_to_float
 PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
-vus = 100
-data = "1MB"
+vus = 10
+data = "10kB"
 
 files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
@@ -37,5 +37,6 @@ plt.bar(
 plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel('Response times (ms)')
 plt.title('Comparison for both APIs')
-plt.savefig(f"{PATH_TO_SAVE}stderr-{vus}vu-{data}.png")
+plt.tight_layout()
+plt.savefig(f"{PATH_TO_SAVE}get-stderr-{vus}vu-{data}.png")
 plt.show()

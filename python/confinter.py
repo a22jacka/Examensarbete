@@ -49,5 +49,6 @@ plt.bar(
 plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
 plt.ylabel("Response times (ms)")
 plt.title("The confidence intervals for the APIs")
+plt.tight_layout()
 plt.savefig(f"{PATH_TO_SAVE}confinter-{vus}vu-{data}.png")
 #plt.show()
