@@ -1,5 +1,4 @@
 using System.Data.Common;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using MySqlConnector;
 
@@ -33,7 +32,7 @@ public class WildfireEntry
     [JsonPropertyName("sofirenum")]
     public int? Sofirenum { get; set; }
     [JsonPropertyName("localfirenum")]
-    public int? Localfirenum { get; set; }
+    public long? Localfirenum { get; set; }
     [JsonPropertyName("securityid")]
     public int? Securityid { get; set; }
     [JsonPropertyName("discoverydatetime")]
@@ -88,7 +87,7 @@ public class WildfireEntry
         {
             // I am not proud of this solution but it works and I wanna work on something else
             // All the TryParse is for null handling, other is just fails with "Can't convert DBNull to other types" 
-            var entry = new WildfireEntry()
+            entries.Add(new WildfireEntry()
             {
                 // never null so doesn't need extra stuff to handle null
                 Id = reader.GetString(0),
@@ -104,7 +103,7 @@ public class WildfireEntry
                 Fireyear = UInt16.TryParse(reader.GetValue(10).ToString(), out ushort uresult) ? uresult : null,
                 Uniquefireid = reader.GetValue(11).ToString(),
                 Sofirenum = Int32.TryParse(reader.GetValue(12).ToString(), out result) ? result : null,
-                Localfirenum = Int32.TryParse(reader.GetValue(13).ToString(), out result) ? result : null,
+                Localfirenum = Int64.TryParse(reader.GetValue(13).ToString(), out long lresult) ? lresult : null,
                 Securityid = Int32.TryParse(reader.GetValue(14).ToString(), out result) ? result : null,
                 Discoverydatetime = reader.GetValue(15).ToString(),
                 Sizeclass = reader.GetValue(16).ToString(),
@@ -127,8 +126,7 @@ public class WildfireEntry
                 Dbsourcedate = reader.GetValue(33).ToString(),
                 Accuracy = Int32.TryParse(reader.GetValue(34).ToString(), out result) ? result : null,
                 Shape = reader.GetValue(35).ToString(),
-            };
-            entries.Add(entry);
+            });
         }
         return entries;
     }
@@ -184,9 +182,9 @@ public class WildfireEntry
         {
             await command.ExecuteNonQueryAsync();
         }
-        catch (DbException)
+        catch (DbException e)
         {
-            throw new Exception();
+            throw new Exception(e.Message);
         }
         finally
         {

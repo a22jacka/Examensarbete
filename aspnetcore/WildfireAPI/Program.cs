@@ -54,11 +54,11 @@ app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
     {
         await entry.InsertWildfireEntry(MYSQL_CONNECTION_STRING);
         return Results.Created();
-
     }
-    catch (Exception)
+    catch (Exception e)
     {
-        return Results.InternalServerError("Too many connections");
+        Console.WriteLine(e.Message);
+        return Results.InternalServerError("Too many connections, try again later");
     }
 });
 
