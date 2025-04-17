@@ -8,22 +8,17 @@ from misc import str_to_float
 PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
-vus = 100
+vus = 10
 data = "1MB"
-
-#post-files
-files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
-#get-files
-#files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
-colors = {"go": "red", "cs": "blue"}
+colors = {"Echo": "red", "ASP.NET Core": "blue"}
 
 # combines a specified column from 2 files into one dataframe
-csdf = pd.read_csv(files[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
-godf = pd.read_csv(files[1], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
+csdf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}asp-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
+godf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}echo-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
 df = pd.DataFrame({
-    "cs": str_to_float(csdf["durationJS"]),
-    "go": str_to_float(godf["durationJS"]),   
+    "ASP.NET Core": str_to_float(csdf["durationJS"]),
+    "Echo": str_to_float(godf["durationJS"]),
 })
 
 def calc_ci(data, confidence = 0.95):
@@ -34,8 +29,8 @@ def calc_ci(data, confidence = 0.95):
     return -h, +h
 
 cis = pd.DataFrame({
-    "cs": calc_ci(df["cs"]),
-    "go": calc_ci(df["go"]),
+    "ASP.NET Core": calc_ci(df["ASP.NET Core"]),
+    "Echo": calc_ci(df["Echo"]),
 })
 
 plt.figure(figsize=(12,5))
@@ -43,18 +38,19 @@ plt.bar(
     x=range(len(df.columns)),
     height=df.mean(),
     edgecolor="black",
-    color=[colors["cs"], colors["go"]],
+    color=[colors[df.columns[0]], colors[df.columns[1]]],
     width=0.6,
     yerr=cis.iloc[1],
     capsize=7,
     bottom=0
 )
-plt.xticks(range(len(df.columns)), ["ASP.NET Core", "Echo"])
+plt.xticks(range(len(df.columns)), df.columns)
+plt.yticks(range(0, 20, 5))
 plt.ylabel("Response times (ms)")
 plt.title("The confidence intervals for the APIs")
 plt.tight_layout()
 #post
-plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu.png")
+#plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu.png")
 #get
 #plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu-{data}.png")
 plt.show()
