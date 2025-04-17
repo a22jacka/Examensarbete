@@ -52,5 +52,5 @@ plt.tight_layout()
 #post
 #plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu.png")
 #get
-#plt.savefig(f"{PATH_TO_SAVE}post-confinter-{vus}vu-{data}.png")
+#plt.savefig(f"{PATH_TO_SAVE}get-confinter-{vus}vu-{data}.png")
 plt.show()

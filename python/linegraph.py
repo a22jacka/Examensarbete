@@ -6,12 +6,12 @@ from misc import str_to_float
 PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
-vus = 100
-data = "10kB"
+vus = 10
+data = "100"
 #post-files
-files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
+#files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
 #get-files
-#files = glob.glob(f"{PATH_TO_SRC}*get-{vus}vu-{data}.csv")
+files = glob.glob(f"{PATH_TO_SRC}*get-{vus}-{data}.csv")
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"echo": "red", "asp": "blue"}
 
@@ -33,7 +33,7 @@ plt.xticks(range(0, ln+1, 100))
 plt.yticks(range(0, 101, 20))
 plt.tight_layout()
 #post
-plt.savefig(f"{PATH_TO_SAVE}post-line-{vus}vu.png")
+#plt.savefig(f"{PATH_TO_SAVE}post-line-{vus}vu.png")
 #get
-#plt.savefig(f"{PATH_TO_SAVE}post-line-{vus}vu-{data}.png")
+#plt.savefig(f"{PATH_TO_SAVE}get-line-{vus}vu-{data}.png")
 plt.show()

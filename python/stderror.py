@@ -7,7 +7,7 @@ PATH_TO_SRC = "../pilot-study-results/csv/"
 PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
 vus = 10
-data = "1MB"
+data = "10kB"
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"Echo": "red", "ASP.NET Core": "blue"}
 
@@ -40,5 +40,5 @@ plt.tight_layout()
 #post
 #plt.savefig(f"{PATH_TO_SAVE}post-stderr-{vus}vu.png")
 #get
-#plt.savefig(f"{PATH_TO_SAVE}post-stferr-{vus}vu-{data}.png")
+plt.savefig(f"{PATH_TO_SAVE}get-stderr-{vus}vu-{data}.png")
 plt.show()
