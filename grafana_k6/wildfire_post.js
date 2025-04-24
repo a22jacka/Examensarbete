@@ -2,7 +2,8 @@
 
 import { sleep } from 'k6';
 import http from 'k6/http';
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+//import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import { uuidv4 } from './libs/uuidv4.js'
 import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 import { vu } from 'k6/execution';
@@ -59,5 +60,5 @@ export default async function () {
 
     console.log(`${id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
 
-    sleep(0.5);
+    //sleep(0.5);
 }

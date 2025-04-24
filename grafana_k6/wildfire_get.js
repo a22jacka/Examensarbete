@@ -3,9 +3,10 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 
-import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+//import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import { uuidv4 } from './libs/uuidv4.js'
 
-const vus = 10;
+const vus = 100;
 const iterPerVu = 2000 / vus;
 
 export const options = {
@@ -27,17 +28,22 @@ export default function () {
     //        13 =   10kB
     //        127 =  100kB
     //        1300 = 1MB
-    const limit = 13;
+    const limit = 1300;
     // number of entries in database, set manually
     const dbEntries = 10000;
-    const offset = randomIntBetween(1, dbEntries - limit);
+    //const offset = randomIntBetween(1, dbEntries - limit);
+    const offset = Math.floor(Math.random() * (dbEntries - limit) + 1);
+
 
     const startTime = Date.now();
     const response = http.get(`http://localhost:8080/wildfires?limit=${limit}&offset=${offset}`);
     const endTime = Date.now();
+    if (response.status !== 200) {
+        console.log(response);
+    }
 
     const duration = endTime - startTime;
     console.log(`${testId},${response.status},${startTime},${endTime},${duration},${response.timings.duration},${vus},${limit},${offset}`);
 
-    sleep(0.5)
+    //sleep(0.5)
 }
