@@ -35,8 +35,7 @@ export default async function () {
     }
 
     // seperate data object since the numbers aren't converting correctly
-    const id = uuidv4();
-    const data = { id: id }
+    const data = { id: uuidv4() }
 
     // a zero-width space someho get's in from the file, so this is needed to remove that 
     value.x = value["﻿x"];
@@ -52,13 +51,13 @@ export default async function () {
     }
 
     const startTime = Date.now();
-    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify({ id: id, ...data }), {
+    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
     });
     const stopTime = Date.now();
     const duration = stopTime - startTime;
 
-    console.log(`${id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
+    console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
 
     //sleep(0.5);
 }
