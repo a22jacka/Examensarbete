@@ -13,7 +13,7 @@ const iterPerVu = 100;
 
 export const options = {
     vus: vus,
-    iterations: vus * iterPerVu,
+    iterations: 2000, //vus * iterPerVu,
     //duration: '2m'
 };
 
@@ -55,6 +55,9 @@ export default async function () {
         headers: { "Content-Type": "application/json" },
     });
     const stopTime = Date.now();
+    if (response.status !== 200) {
+        console.log(response);
+    }
     const duration = stopTime - startTime;
 
     console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus}`);
