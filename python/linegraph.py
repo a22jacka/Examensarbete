@@ -6,13 +6,12 @@ from misc import str_to_float
 PATH_TO_SRC = "../results/measurement-error-research/no-sleep-local-offline/"
 PATH_TO_SAVE = PATH_TO_SRC
 #PATH_TO_SAVE = "../results/measurement-error-research/no-sleep/"
+IS_GET = 1 # 1 for GET, 0 for POST
+vus = 100
+data = "100kB"
 
-vus = 10
-data = "1MB"
-#post-files
-files = glob.glob(f"{PATH_TO_SRC}*post-{vus}vu.csv")
-#get-files
-#files = glob.glob(f"{PATH_TO_SRC}/*get-{vus}vu-{data}.csv")
+files = glob.glob(f"{PATH_TO_SRC}*{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")
+
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"echo": "red", "asp": "blue"}
 
@@ -33,8 +32,5 @@ plt.title("Load times for the APIs")
 plt.xticks(range(0, ln+1, 100))
 plt.yticks(range(0, 251, 10))
 plt.tight_layout()
-#post
-plt.savefig(f"{PATH_TO_SAVE}post-line-{vus}vu.png")
-#get
-#plt.savefig(f"{PATH_TO_SAVE}/get-line-{vus}vu-{data}.png")
+plt.savefig(f"{PATH_TO_SAVE}*{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")
 plt.show()
