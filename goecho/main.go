@@ -9,7 +9,6 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 var db *sql.DB
@@ -98,7 +97,6 @@ func getFireData(c echo.Context) error {
 func main() {
 	// echo setup
 	e := echo.New()
-	e.Use(middleware.CORS())
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
