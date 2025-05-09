@@ -1,5 +1,6 @@
 import http from 'k6/http';
-import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+//import { uuidv4, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import { uuidv4 } from './libs/uuidv4.js'
 import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 
