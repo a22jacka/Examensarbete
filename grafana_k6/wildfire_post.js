@@ -25,6 +25,7 @@ const parser = new csv.Parser(file, { asObjects: true });
 const convertToNumber = ["x", "y", "objectid", "fireyear", "sofirenum", "localfirenum", "securityid", "totalacres", "datasource", "latdd83", "longdd83", "dbsourceid", "accuracy"];
 
 export function setup() {
+    http.del("http://localhost:8080/cleardb");
     console.log(`id,status,startTime,stopTime,durationJS,durationK6,vus,bodyLength`);
 }
 
@@ -98,7 +99,7 @@ export default async function () {
     }
     const duration = stopTime - startTime;
 
-    console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(constData)}`);
+    console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(constData).length}`);
 
     //sleep(0.5);
 }

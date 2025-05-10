@@ -102,6 +102,10 @@ func main() {
 	})
 	e.GET("/wildfires", getFireData)
 	e.POST("/wildfires/addentry", insertFireData)
+	e.DELETE("/cleardb", func(c echo.Context) error {
+		db.Query("DELETE FROM WildfireEntry;")
+		return c.String(http.StatusNoContent, "Database cleared")
+	})
 
 	// database setup
 	var err error

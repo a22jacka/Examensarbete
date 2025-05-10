@@ -43,7 +43,15 @@ app.MapGet("/wildfires", async (int? limit, int? offset) =>
 app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
 {
     using var reader = new StreamReader(requestBody, leaveOpen: false);
-    var jsonString = await reader.ReadToEndAsync();
+    string jsonString = string.Empty;
+    try
+    {
+        jsonString = await reader.ReadToEndAsync();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
 
     WildfireEntry? entry = JsonSerializer.Deserialize<WildfireEntry>(jsonString);
     if (entry is null)
@@ -60,6 +68,17 @@ app.MapPost("/wildfires/addentry", async (Stream requestBody) =>
         Console.WriteLine(e.Message);
         return Results.InternalServerError("Too many connections, try again later");
     }
+});
+
+app.MapDelete("/cleardb", async () =>
+{
+    using var connection = new MySqlConnection(MYSQL_CONNECTION_STRING);
+    using var command = connection.CreateCommand();
+    command.CommandText = "DELETE FROM WildfireEntry;";
+    await connection.OpenAsync();
+    await command.ExecuteReaderAsync();
+    await connection.CloseAsync();
+    return Results.NoContent();
 });
 
 app.Run();
