@@ -13,7 +13,7 @@ type WildFireEntry struct {
 	Y                 *float64 `json:"y"`
 	Objectid          *int32   `json:"objectid"`
 	Globalid          *string  `json:"globalid"`
-	Fireoccureid      *string  `json:"fireoccureid"`
+	Fireoccurid       *string  `json:"fireoccureid"`
 	Cn                *string  `json:"cn"`
 	Revdate           *string  `json:"revdate"`
 	Firename          *string  `json:"firename"`
@@ -53,7 +53,7 @@ func ScanEntry(entry WildFireEntry, rows *sql.Rows) (WildFireEntry, error) {
 		&entry.Y,
 		&entry.Objectid,
 		&entry.Globalid,
-		&entry.Fireoccureid,
+		&entry.Fireoccurid,
 		&entry.Cn,
 		&entry.Revdate,
 		&entry.Firename,
@@ -91,5 +91,5 @@ func ScanEntry(entry WildFireEntry, rows *sql.Rows) (WildFireEntry, error) {
 func executeInsert(db *sql.DB, data WildFireEntry) (sql.Result, error) {
 	return db.Exec(
 		"INSERT INTO WildfireEntry(ID, X, Y, OBJECTID, GLOBALID, FIREOCCURID, CN, REVDATE, FIRENAME, COMPLEXNAME, FIREYEAR, UNIQUEFIREID, SOFIRENUM, LOCALFIRENUM, SECURITYID, DISCOVERYDATETIME, SIZECLASS, TOTALACRES, STATCAUSE, COMMENTS, DATASOURCE, FIREOUTDATETIME, OWNERAGENCY, UNITDOWNER, PROTECTIONAGENCY, UNITDPROTECT, LATDD83, LONGDD83, FIRETYPECATEGORY, POINTTYPE, PERIMIEXISTS, FIRERPTQC, DBSOURCEID, DBSOURCEDATE, ACCURACY, SHAPE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-		data.Id, data.X, data.Y, data.Objectid, data.Globalid, data.Fireoccureid, data.Cn, data.Revdate, data.Firename, data.Complexname, data.Fireyear, data.Uniquefireid, data.Sofirenum, data.Localfirenum, data.Securityid, data.Discoverydatetime, data.Sizeclass, data.Totalacres, data.Statcause, data.Comments, data.Datasource, data.Fireoutdatetime, data.Owneragency, data.Unitdowner, data.Protectionagency, data.Unitdprotect, data.Latdd83, data.Longdd83, data.Firetypecategory, data.Pointtype, data.Perimexists, data.Firerptqc, data.Dbsourceid, data.Dbsourcedate, data.Accuracy, data.Shape)
+		data.Id, data.X, data.Y, data.Objectid, data.Globalid, data.Fireoccurid, data.Cn, data.Revdate, data.Firename, data.Complexname, data.Fireyear, data.Uniquefireid, data.Sofirenum, data.Localfirenum, data.Securityid, data.Discoverydatetime, data.Sizeclass, data.Totalacres, data.Statcause, data.Comments, data.Datasource, data.Fireoutdatetime, data.Owneragency, data.Unitdowner, data.Protectionagency, data.Unitdprotect, data.Latdd83, data.Longdd83, data.Firetypecategory, data.Pointtype, data.Perimexists, data.Firerptqc, data.Dbsourceid, data.Dbsourcedate, data.Accuracy, data.Shape)
 }
