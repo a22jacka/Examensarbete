@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import glob
 from misc import *
 
-PATH_TO_SRC = "../results/measurement-error-research/no-sleep-const-local/"
+PATH_TO_SRC = "../results/measurement-error-research/no-sleep-const-local-offline/"
 PATH_TO_SAVE = PATH_TO_SRC
 #PATH_TO_SAVE = "../results/measurement-error-research/no-sleep/"
 IS_GET = 0 # 1 for GET, 0 for POST
-vus = 100
-data = "100kB"
+vus = 10
+data = "1MB"
 
-files = glob.glob(f"{PATH_TO_SRC}*{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")
+files = glob.glob(f"{PATH_TO_SRC}*-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}-del.csv")
 
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"echo": "red", "asp": "blue"}
@@ -30,7 +30,7 @@ plt.xlabel("Iterations")
 plt.ylabel("Response time (ms)")
 plt.title("Load times for the APIs")
 plt.xticks(range(0, ln+1, 100))
-plt.yticks(range(0, 241, 20)) 
+plt.yticks(range(0, 181, 10))
 plt.tight_layout()
-plt.savefig(f"{PATH_TO_SAVE}{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.png")
+plt.savefig(f"{PATH_TO_SAVE}line-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}-del.png")
 plt.show()

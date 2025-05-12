@@ -3,42 +3,39 @@ import matplotlib.pyplot as plt
 import glob
 from misc import str_to_float
 
-PATH_TO_SRC = "../pilot-study-results/csv/"
-PATH_TO_SAVE = "../pilot-study-results/graphs/"
+PATH_TO_SRC = "../results/measurement-error-research/no-sleep-const"
+PATH_TO_SAVE = PATH_TO_SRC
+#PATH_TO_SAVE = "../results/measurement-error-research/no-sleep/"
 
-vus = 10
-data = "10kB"
+IS_GET = 1 # 1 for GET, 0 for POST
+vus = 100
+data = "100kB"
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
 colors = {"Echo": "red", "ASP.NET Core": "blue"}
 
 # combines a specified column from 2 files into one dataframe
-csdf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}asp-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
-godf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}echo-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
+csdf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}-local-offline/asp-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
+godf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}-local-offline/echo-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
 df = pd.DataFrame({
     "ASP.NET Core": str_to_float(csdf["durationJS"]),
     "Echo": str_to_float(godf["durationJS"]),
 })
-
 # 100px per inch
-plt.figure(figsize=(12, 5))
+plt.figure(figsize=(7, 5))
 plt.bar(
     x=range(len(df.columns)),
     height=df.mean(),
     color=[colors[df.columns[0]], colors[df.columns[1]]],
     edgecolor="black",
-    width=0.6,
+    width=0.5,
     yerr=df.sem(),
     capsize=7,
-    alpha=0.5,
     bottom=0
 )
 plt.xticks(range(len(df.columns)), df.columns)
-plt.yticks(range(0, 21, 5))
+plt.yticks(range(0, 201, 10))
 plt.ylabel('Response times (ms)')
 plt.title('Comparison for both APIs')
 plt.tight_layout()
-#post
-#plt.savefig(f"{PATH_TO_SAVE}post-stderr-{vus}vu.png")
-#get
-plt.savefig(f"{PATH_TO_SAVE}get-stderr-{vus}vu-{data}.png")
+plt.savefig(f"{PATH_TO_SAVE}stderr-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.png")
 plt.show()

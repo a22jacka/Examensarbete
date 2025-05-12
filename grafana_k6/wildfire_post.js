@@ -8,7 +8,7 @@ import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 import { vu } from 'k6/execution';
 
-const vus = 10;
+const vus = 100;
 const iterPerVu = 100;
 
 export const options = {
@@ -50,7 +50,7 @@ export default async function () {
             data[key] = val;
         }
     }
-    const constData = {
+    let constData = {
         "id": uuidv4(),
         "accuracy": 24000,
         "perimexists": "N",
@@ -99,7 +99,7 @@ export default async function () {
     }
     const duration = stopTime - startTime;
 
-    console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(constData).length}`);
+    console.log(`${constData.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(constData).length}`);
 
     //sleep(0.5);
 }
