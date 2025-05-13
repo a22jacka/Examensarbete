@@ -4,7 +4,7 @@ using WildfireAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string? MYSQL_CONNECTION_STRING = builder.Configuration.GetConnectionString("Docker");
+string? MYSQL_CONNECTION_STRING = builder.Configuration.GetConnectionString("Local");
 if (MYSQL_CONNECTION_STRING is null)
 {
     Console.ForegroundColor = ConsoleColor.Red;

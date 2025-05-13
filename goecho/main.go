@@ -111,7 +111,7 @@ func main() {
 	var err error
 	localString := "root:exjobb@/wildfire"
 	dockerString := "root:exjobb@tcp(172.17.0.1)/wildfire"
-	db, err = sql.Open("mysql", dockerString)
+	db, err = sql.Open("mysql", localString)
 	if err != nil {
 		panic(err)
 	}

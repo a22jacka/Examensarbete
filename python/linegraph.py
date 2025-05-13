@@ -5,8 +5,8 @@ from misc import *
 
 PATH_TO_SRC = "../results/csv/"
 PATH_TO_SAVE = "../results/graphs/"
-IS_GET = 1 # 1 for GET, 0 for POST
-vus = 50
+IS_GET = 0 # 1 for GET, 0 for POST
+vus = 10
 data = "10kB"
 
 files = glob.glob(f"{PATH_TO_SRC}*-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.csv")
@@ -30,7 +30,7 @@ plt.xlabel("Iterations")
 plt.ylabel("Response time (ms)")
 plt.title("Load times for the APIs")
 plt.xticks(range(0, ln+1, 1000))
-plt.yticks(range(0, 101, 10))
+plt.yticks(range(0, 451, 50))
 plt.tight_layout()
 plt.savefig(f"{PATH_TO_SAVE}line-{("get" if IS_GET else "post")}-{vus}vu{(f"-{data}" if IS_GET else "")}.png")
 plt.show()

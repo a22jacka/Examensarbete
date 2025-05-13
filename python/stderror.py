@@ -6,8 +6,8 @@ from misc import str_to_float
 PATH_TO_SRC = "../results/csv/"
 PATH_TO_SAVE = "../results/graphs/"
 
-IS_GET = 1 # 1 for GET, 0 for POST
-vus = 100
+IS_GET = 0 # 1 for GET, 0 for POST
+vus = 50
 data = "10kB"
 rows_to_skip = vus * 2 + 1
 headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset","bodyLength"]

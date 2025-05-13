@@ -8,12 +8,12 @@ import { open } from 'k6/experimental/fs';
 import csv from 'k6/experimental/csv';
 import { vu } from 'k6/execution';
 
-const vus = 100;
+const vus = 10;
 const iterPerVu = 100;
 
 export const options = {
     vus: vus,
-    iterations: 2000, //vus * iterPerVu,
+    iterations: 20000 + (vus * 2), //vus * iterPerVu,
     //duration: '2m'
 };
 
@@ -50,47 +50,9 @@ export default async function () {
             data[key] = val;
         }
     }
-    let constData = {
-        "id": uuidv4(),
-        "accuracy": 24000,
-        "perimexists": "N",
-        "firename": "Battlement Mesa Reservoir",
-        "securityid": 215,
-        "sizeclass": "A",
-        "datasource": 24,
-        "owneragency": "USFS",
-        "longdd83": -107.93556,
-        "firerptqc": "Yes",
-        "dbsourcedate": "2024/09/24 04:01:15+00",
-        "cn": "",
-        "uniqfireid": "2016-COWRF-000452",
-        "localfirenum": 452,
-        "comments": " ",
-        "fireoutdatetime": "2016/08/12 11:20:01+00",
-        "x": -107.93555556,
-        "revdate": "2023/03/29 11:10:59+00",
-        "complexname": "",
-        "sofirenum": 18,
-        "unitidowner": "COWRF",
-        "pointtype": "General",
-        "dbsourceid": 215,
-        "fireyear": 2016,
-        "firetypecategory": "WF",
-        "shape": "",
-        "y": 39.37277778,
-        "fireoccurid": "A2454D64-EBB7-4895-81BC-9782B3D1391E",
-        "discoverydatetime": "2016/08/07 00:00:01+00",
-        "statcause": "Camping",
-        "protectionagency": "USFS",
-        "latdd83": 39.37278,
-        "globalid": "{ACE77CF8-1281-4A81-BE3D-4D55669CB134}",
-        "unitidprotect": "COWRF",
-        "objectid": 231055010,
-        "totalacres": 0.1
 
-    };
     const startTime = Date.now();
-    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify(constData), {
+    const response = http.post("http://localhost:8080/wildfires/addentry", JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
     });
     const stopTime = Date.now();
@@ -99,7 +61,7 @@ export default async function () {
     }
     const duration = stopTime - startTime;
 
-    console.log(`${constData.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(constData).length}`);
+    console.log(`${data.id},${response.status},${startTime},${stopTime},${duration},${response.timings.duration},${vus},${JSON.stringify(data).length}`);
 
     //sleep(0.5);
 }
