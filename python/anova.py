@@ -8,12 +8,13 @@ PATH_TO_SAVE = "../pilot-study-results/graphs/"
 
 vus = 10
 data = "1MB"
-headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset"]
+rows_to_skip = vus * 2 + 1
+headers = ["testId","status","startTime","endTime","durationJS","durationK6","vus","limit","offset","bodyLength"]
 colors = {"Echo": "red", "ASP.NET Core": "blue"}
 
 # combines a specified column from 2 files into one dataframe
-csdf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}asp-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
-godf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}echo-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=[0])
+csdf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}asp-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=rows_to_skip, index_col=False)
+godf = pd.read_csv(glob.glob(f"{PATH_TO_SRC}echo-get-{vus}vu-{data}.csv")[0], sep=",", header=None, names=headers, low_memory=False, skiprows=rows_to_skip, index_col=False )
 df = pd.DataFrame({
     "ASP.NET Core": str_to_float(csdf["durationJS"]),
     "Echo": str_to_float(godf["durationJS"]),
