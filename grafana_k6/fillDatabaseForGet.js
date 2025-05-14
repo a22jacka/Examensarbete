@@ -16,6 +16,10 @@ const parser = new csv.Parser(file, { asObjects: true });
 // Just doing a loop doesn't work since not all fields that can be numbers should be numbers
 const convertToNumber = ["x", "y", "objectid", "fireyear", "sofirenum", "localfirenum", "securityid", "totalacres", "datasource", "latdd83", "longdd83", "dbsourceid", "accuracy"];
 
+export function setup() {
+    http.del("http://localhost:8080/cleardb");
+}
+
 export default async function () {
     const { done, value } = await parser.next();
     if (done) {
