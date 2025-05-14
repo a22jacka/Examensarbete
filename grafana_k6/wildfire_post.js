@@ -13,7 +13,7 @@ const iterPerVu = 100;
 
 export const options = {
     vus: vus,
-    iterations: 20000 + (vus * 2), //vus * iterPerVu,
+    iterations: 2000// + (vus * 2), //vus * iterPerVu,
     //duration: '2m'
 };
 
@@ -36,7 +36,7 @@ export default async function () {
     }
 
     // seperate data object since the numbers aren't converting correctly
-    const data = { id: uuidv4() }
+    let data = { id: uuidv4() }
 
     // a zero-width space someho get's in from the file, so this is needed to remove that 
     value.x = value["﻿x"];
